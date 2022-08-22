@@ -15,5 +15,5 @@ steps:
 
 - script: |
     docker pull checkpoint/shiftleft
-    docker run -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=$(CHKP_CLOUDGUARD_ID)" -e "CHKP_CLOUDGUARD_SECRET=$(CHKP_CLOUDGUARD_SECRET)" checkpoint/shiftleft shiftleft code-scan -s ./Shiftleft_Az_Pipeline
+    docker run -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=$(CHKP_CLOUDGUARD_ID)" -e "CHKP_CLOUDGUARD_SECRET=$(CHKP_CLOUDGUARD_SECRET)" checkpoint/shiftleft shiftleft code-scan -s /Shiftleft_Az_Pipeline/
   displayName: 'Shiftleft Code-Scan'
