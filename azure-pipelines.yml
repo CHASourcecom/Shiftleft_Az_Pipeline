@@ -13,7 +13,7 @@ container:
   image: checkpoint/shiftleft
   endpoint: checkpoint
 steps:
-  - checkout: Shiftleft_Az_Pipeline
+  - checkout: self
   - script: shiftleft code-scan -t 900 -e $CHKP_CLOUDGUARD_ENV -l ado=shifleft-docker -r -2003 -s ./
     env:
       #Map secret variables to environment variables
