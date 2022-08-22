@@ -10,7 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- checkout: Shiftleft_Az_Pipeline
+- checkout: self
 - task: CmdLine@2
   inputs:
     script: |
