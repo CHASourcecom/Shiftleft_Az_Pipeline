@@ -10,10 +10,15 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    docker pull checkpoint/shiftleft
-    docker run -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=$(CHKP_CLOUDGUARD_ID)" -e "CHKP_CLOUDGUARD_SECRET=$(CHKP_CLOUDGUARD_SECRET)" checkpoint/shiftleft shiftleft code-scan -s ../Shiftleft_Az_Pipeline/
-  displayName: 'Shiftleft Code-Scan'
+- checkout: Shiftleft_Az_Pipeline
+- task: CmdLine@2
+  inputs:
+    script: |
+      ./shiftleft code-scan -s ./
+    env:
+      CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
+      CHKP_CLOUDGUARD_SECRET: $(CHKP_CLOUDGUARD_SECRET)
+      CHKP_CLOUDGUARD_ENV: $(CHKP_CLOUDGUARD_ENV)
+    displayName: Running Source Code scan
+  
+  
