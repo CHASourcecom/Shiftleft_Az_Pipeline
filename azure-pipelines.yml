@@ -14,7 +14,7 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      ./shiftleft code-scan -s ./
+       docker pull checkpoint/shiftleft
     displayName: Running Source Code scan
   
   
