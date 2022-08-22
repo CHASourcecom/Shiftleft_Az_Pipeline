@@ -13,7 +13,7 @@ steps:
   - checkout: self
   - script: |
       docker pull checkpoint/shiftleft
-      docker run checkpoint/shiftleft shiftleft code-scan -t 900 -e $CHKP_CLOUDGUARD_ENV -r -2003 -s ./
+      docker run checkpoint/shiftleft shiftleft -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=$(CHKP_CLOUDGUARD_ID)" -e "CHKP_CLOUDGUARD_SECRET=$(CHKP_CLOUDGUARD_SECRET)" code-scan -t 900 -e $CHKP_CLOUDGUARD_ENV -r -2003 -s ./
     env:
       #Map secret variables to environment variables
       CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
