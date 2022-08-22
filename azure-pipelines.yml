@@ -12,6 +12,8 @@ pool:
 steps:
   - checkout: self
   - script: |
+      ls -la
+      pwd
       docker pull checkpoint/shiftleft
       docker run -v=$(pwd):/tmp/ -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_ID" -e "CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_SECRET" checkpoint/shiftleft shiftleft code-scan -t 900 -e $CHKP_CLOUDGUARD_ENV -r -2003 -s /tmp/
     env:
