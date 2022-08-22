@@ -8,14 +8,19 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
-
-steps:
-- checkout: self
-- task: CmdLine@2
-  inputs:
-    script: |
-       docker pull checkpoint/shiftleft
-       docker run -v=$(pwd):/tmp/ -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=$(CHKP_CLOUDGUARD_ID)" -e "CHKP_CLOUDGUARD_SECRET=$(CHKP_CLOUDGUARD_SECRET)" checkpoint/shiftleft shiftleft code-scan -s /tmp/
-    displayName: Running Source Code scan
   
+container:
+  image: checkpoint/shiftleft
+  endpoint: checkpoint
+steps:
+  - checkout: Shiftleft_Az_Pipeline
+  - script: shiftleft code-scan -t 900 -e $CHKP_CLOUDGUARD_ENV -l ado=shifleft-docker -r -2003 -s ./
+    env:
+      #Map secret variables to environment variables
+      CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
+      CHKP_CLOUDGUARD_SECRET: $(CHKP_CLOUDGUARD_SECRET)
+      CHKP_CLOUDGUARD_ENV: $(CHKP_CLOUDGUARD_ENV)
+    displayName: Running Source Code scan using ShiftLeft Docker image
+
+
   
