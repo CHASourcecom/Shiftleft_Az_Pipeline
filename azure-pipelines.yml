@@ -16,7 +16,7 @@ steps:
       pwd
       ls .git -lah
       docker pull checkpoint/shiftleft
-      docker run -v $(pwd):/tmp/ -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=f41c1fc0-d319-4767-9f41-4797d141910a" -e "CHKP_CLOUDGUARD_SECRET=oiu9hpittepas6musbbmr1bc" checkpoint/shiftleft shiftleft code-scan -s /tmp/
+      docker run -v $(pwd):/tmp/ -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=f41c1fc0-d319-4767-9f41-4797d141910a" -e "CHKP_CLOUDGUARD_SECRET=oiu9hpittepas6musbbmr1bc" checkpoint/shiftleft shiftleft code-scan --debug -s /tmp/
     env:
       #Map secret variables to environment variables
       CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
