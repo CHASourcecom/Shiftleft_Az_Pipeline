@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
@@ -14,16 +9,11 @@ steps:
   - script: |
       apt install git -y
       git clone https://github.com/CHASourcecom/Shiftleft_Az_Pipeline.git
-      ls -la
-      pwd
       docker pull checkpoint/shiftleft
-      docker run -v /home/vsts/work/1/s/Shiftleft_Az_Pipeline:/tmp/ -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=f41c1fc0-d319-4767-9f41-4797d141910a" -e "CHKP_CLOUDGUARD_SECRET=oiu9hpittepas6musbbmr1bc" checkpoint/shiftleft shiftleft code-scan -s /tmp/
+      docker run -v /home/vsts/work/1/s/Shiftleft_Az_Pipeline:/tmp/ -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_ID" -e "CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_SECRET" checkpoint/shiftleft shiftleft code-scan -s /tmp/
     env:
       #Map secret variables to environment variables
       CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
       CHKP_CLOUDGUARD_SECRET: $(CHKP_CLOUDGUARD_SECRET)
       CHKP_CLOUDGUARD_ENV: $(CHKP_CLOUDGUARD_ENV)
-    displayName: Running Source Code scan using ShiftLeft Docker image
-
-
-  
+    displayName: Running Source Code scan using ShiftLeft
