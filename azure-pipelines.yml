@@ -10,7 +10,7 @@ steps:
       apt install git -y
       git clone https://github.com/CHASourcecom/Shiftleft_Az_Pipeline.git
       docker pull checkpoint/shiftleft
-      docker run -v /home/vsts/work/1/s/Shiftleft_Az_Pipeline:/tmp/ -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_ID" -e "CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_SECRET" checkpoint/shiftleft shiftleft code-scan -r -2003 -e 3dab4fec-ca34-42aa-96b1-e02da3f8c292 -s /tmp/
+      docker run -v /home/vsts/work/1/s/Shiftleft_Az_Pipeline:/tmp/ -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_ID" -e "CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_SECRET" checkpoint/shiftleft shiftleft code-scan -r 2003 -e 3dab4fec-ca34-42aa-96b1-e02da3f8c292 -s /tmp/
     env:
       #Map secret variables to environment variables
       CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
