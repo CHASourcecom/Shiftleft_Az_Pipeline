@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: main
       - name: Run Shiftleft on code
         run: |
            docker pull checkpoint/shiftleft
