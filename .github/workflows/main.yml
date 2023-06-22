@@ -1,29 +1,18 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
+name: Shiftleft
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main", "branch1" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  workflow_dispatch: 
+env:
+  SPECTRAL_DSN: ${{ secrets.SPECTRAL_DSN }}
 
 jobs:
-  Code_Scanner:
+  scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: main
-      - name: Run Shiftleft on code
-        run: |
-           docker pull checkpoint/shiftleft
-           docker run -v=$(pwd):/tmp/ -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=${{ secrets.CHKP_CLOUDGUARD_ID }}" -e "CHKP_CLOUDGUARD_SECRET=${{ secrets.CHKP_CLOUDGUARD_SECRET }}" checkpoint/shiftleft shiftleft code-scan -X "out/production/Shiftleft_Az_Pipeline/*" -r -2003 -e "${{ secrets.CHKP_ENVIROMENT_ID }}" -s /tmp/ 
-        
-
+    - uses: actions/checkout@v2
+    - name: Install and run Spectral CI
+      uses: spectralops/spectral-github-action@v3
+      with:
+        spectral-dsn: ${{ env.SPECTRAL_DSN }}
+        spectral-args: scan --ok --engines secrets,iac,oss --include-tags base,audit,iac --exclude-tags informational, low
