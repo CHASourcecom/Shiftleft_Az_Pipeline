@@ -1,19 +1,18 @@
-trigger:
-- main
-
-pool:
-  vmImage: ubuntu-latest
-  
-steps:
-  - checkout: self
-  - script: |
-      apt install git -y
-      git clone https://github.com/CHASourcecom/Shiftleft_Az_Pipeline.git
-      docker pull checkpoint/shiftleft
-      docker run -v /home/vsts/work/1/s/Shiftleft_Az_Pipeline:/tmp/ -e "SHIFTLEFT_REGION=eu1" -e "CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_ID" -e "CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_SECRET" checkpoint/shiftleft shiftleft code-scan -r 2003 -e 3dab4fec-ca34-42aa-96b1-e02da3f8c292 -s /tmp
-    env:
-      #Map secret variables to environment variables
-      CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
-      CHKP_CLOUDGUARD_SECRET: $(CHKP_CLOUDGUARD_SECRET)
-      CHKP_CLOUDGUARD_ENV: $(CHKP_CLOUDGUARD_ENV)
-    displayName: Running Source Code scan using ShiftLeft
+name: Main
+on:
+  push:
+    branches: [ master ]
+   
+env:
+  SPECTRAL_DSN: ${{ secrets.SPECTRAL_DSN }}
+ 
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install and run Spectral CI
+      uses: spectralops/spectral-github-action@v2
+      with:
+        spectral-dsn: ${{ env.SPECTRAL_DSN }}
+        spectral-args: scan --ok --include-tags base,audit --exclude-tags informational,low
